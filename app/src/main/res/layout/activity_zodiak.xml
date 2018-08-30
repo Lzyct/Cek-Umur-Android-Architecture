@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!--Membuat variable dataZodiak dan viewModel-->
+        <variable
+            name="dataZodiak"
+            type="com.tuxdev.sampleaacjava.model.DataZodiak" />
+
+        <variable
+            name="viewModel"
+            type="com.tuxdev.sampleaacjava.zodiak.ZodiakViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".zodiak.ZodiakActivity">
+
+        <EditText
+            android:id="@+id/et_nama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama" />
+
+        <EditText
+            android:id="@+id/et_tgl_lahir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tanggal Lahir - Contoh 31-10-2010 " />
+
+        <!--Attribute app:visibility,app:buttonEnable cek di DataBindingAdapter-->
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            app:visibility="@{viewModel.visibilityProgressBar}" />
+
+        <!--onClick memanggil method getZodiak di ZodiakViewModel dengan inputan
+        dari view et_name dan et_tgl_lahir-->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:onClick="@{()-> viewModel.getZodiak(etNama.getText().toString(),etTglLahir.getText().toString())}"
+            android:text="Cek Umur"
+            app:buttonEnable="@{viewModel.visibilityProgressBar}" />
+
+        <!--Menampilkan variable usia dari DataZodiak hasil dari observe dataZodiak-->
+        <TextView
+            android:id="@+id/tv_umur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{dataZodiak.data.nama+'\n'+dataZodiak.data.usia}"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+</layout>
